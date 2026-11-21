@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" manifest="larphub.manifest">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>larphub - installing offline cache</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="boot-screen">
+  <div class="boot-inner">
+    <div class="brand">LARP<span>HUB</span></div>
+    <h2 class="boot-title">Downloading Offline Cache</h2>
+    <div class="boot-pct" id="bootPct">0%</div>
+    <div class="barwrap"><div class="bar" id="bootBar"></div></div>
+    <p class="boot-note" id="bootNote">keep the browser open until the bar fills</p>
+    <button id="bootRetry" class="mini cache-retry hidden" type="button">retry</button>
+  </div>
+</div>
+
+<script src="js/cache.js"></script>
+</body>
+</html>

@@ -1,0 +1,374 @@
+/* larphub jailbreak - gray/black shell, blue cache bar, fullscreen log.
+   Deliberately old-WebKit safe: no css variables, no flex, no gap, prefixed
+   gradients and keyframes. The ps4 browser on 5.05 is WebKit 537. */
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body { height: 100%; }
+
+body {
+  background: #0b0c0e;
+  background: -webkit-radial-gradient(50% -120px, 900px 420px, rgba(79, 140, 255, 0.10), rgba(11, 12, 14, 0)),
+              -webkit-linear-gradient(top, #0c0d0f 0%, #0b0c0e 55%, #090a0c 100%);
+  background: radial-gradient(900px 420px at 50% -120px, rgba(79, 140, 255, 0.10), transparent 70%),
+              linear-gradient(180deg, #0c0d0f 0%, #0b0c0e 55%, #090a0c 100%);
+  color: #eceef1;
+  font: 17px/1.45 "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  -webkit-text-size-adjust: 100%;
+  overflow: hidden;
+}
+
+.hidden { display: none !important; }
+
+/* screens */
+
+.screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #0b0c0e;
+  opacity: 1;
+  -webkit-transition: opacity 0.35s ease;
+  transition: opacity 0.35s ease;
+}
+
+.screen.off { opacity: 0; }
+
+.logscreen { z-index: 40; }
+
+/* standalone cache page (cache.html) - not an overlay, it is the document */
+
+.boot-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #0b0c0e;
+  background: -webkit-radial-gradient(50% -120px, 900px 420px, rgba(79, 140, 255, 0.10), rgba(11, 12, 14, 0)),
+              -webkit-linear-gradient(top, #0c0d0f 0%, #0b0c0e 55%, #090a0c 100%);
+  background: radial-gradient(900px 420px at 50% -120px, rgba(79, 140, 255, 0.10), transparent 70%),
+              linear-gradient(180deg, #0c0d0f 0%, #0b0c0e 55%, #090a0c 100%);
+  overflow-y: auto;
+}
+
+/* boot: Downloading Offline Cache */
+
+.boot-inner {
+  width: 520px;
+  max-width: 84%;
+  margin: 0 auto;
+  padding-top: 15%;
+  text-align: center;
+}
+
+.boot-inner .brand {
+  float: none;
+  display: inline-block;
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  color: #f4f5f7;
+  margin-bottom: 28px;
+}
+
+.brand span { color: #4f8cff; }
+
+.boot-title {
+  font: 700 15px/1.2 "Consolas", "DejaVu Sans Mono", monospace;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: #9aa0a8;
+  margin-bottom: 22px;
+}
+
+.boot-pct {
+  font: 700 72px/1 "Consolas", "DejaVu Sans Mono", monospace;
+  color: #f4f5f7;
+  letter-spacing: 0.02em;
+  margin-bottom: 24px;
+}
+
+.boot-note {
+  margin-top: 16px;
+  font: 13px/1.5 "Consolas", "DejaVu Sans Mono", monospace;
+  color: #6b717a;
+}
+
+.cache-retry {
+  float: none;
+  display: inline-block;
+  margin-top: 16px;
+}
+
+/* main: jailbreak + version */
+
+.main {
+  position: relative;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.top {
+  padding: 22px 26px 0;
+  min-height: 34px;
+}
+
+.top:after { content: ""; display: block; clear: both; }
+
+.brand {
+  float: left;
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  color: #f4f5f7;
+}
+
+.meta { float: right; }
+
+.chip {
+  display: inline-block;
+  font: 12px/1 "Consolas", "DejaVu Sans Mono", "Courier New", monospace;
+  padding: 7px 10px;
+  margin-left: 8px;
+  border: 1px solid #31353d;
+  border-radius: 6px;
+  color: #9aa0a8;
+  background: #17191d;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.chip.ok { color: #5ddc8f; border-color: rgba(93, 220, 143, 0.35); }
+.chip.warn { color: #f5c451; border-color: rgba(245, 196, 81, 0.35); }
+.chip.bad { color: #ff7b7b; border-color: rgba(255, 123, 123, 0.35); }
+.chip.blue { color: #7fb0ff; border-color: rgba(79, 140, 255, 0.4); }
+
+.center {
+  text-align: center;
+  padding: 15vh 20px 0;
+}
+
+.jb {
+  display: block;
+  width: 440px;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 28px 10px;
+  border: 1px solid rgba(127, 176, 255, 0.55);
+  border-radius: 12px;
+  background: #2f63d6;
+  background: -webkit-linear-gradient(top, #3d74e8 0%, #2f5fd0 100%);
+  background: linear-gradient(180deg, #3d74e8 0%, #2f5fd0 100%);
+  color: #f6f9ff;
+  font: 800 24px/1 "Consolas", "DejaVu Sans Mono", monospace;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  text-indent: 0.34em;
+  cursor: pointer;
+  -webkit-box-shadow: 0 10px 34px rgba(47, 99, 214, 0.35), 0 1px 0 rgba(255, 255, 255, 0.18) inset;
+  box-shadow: 0 10px 34px rgba(47, 99, 214, 0.35), 0 1px 0 rgba(255, 255, 255, 0.18) inset;
+}
+
+.jb:hover { background: #3d74e8; }
+
+.jb:focus { outline: 3px solid rgba(127, 176, 255, 0.7); outline-offset: 3px; }
+
+.jb[disabled] {
+  background: #1c1f24;
+  border-color: #31353d;
+  color: #6b717a;
+  box-shadow: none;
+  cursor: default;
+}
+
+.jb.busy {
+  background: #1c1f24;
+  color: #7fb0ff;
+  border-color: rgba(79, 140, 255, 0.45);
+}
+
+.verline {
+  margin-top: 20px;
+  font: 14px/1.5 "Consolas", "DejaVu Sans Mono", monospace;
+  letter-spacing: 0.06em;
+  color: #c6cad1;
+}
+
+.phase-note {
+  margin-top: 8px;
+  font: 13px/1.5 "Consolas", "DejaVu Sans Mono", monospace;
+  color: #6b717a;
+}
+
+/* bar */
+
+.barwrap {
+  height: 16px;
+  border-radius: 8px;
+  background: #0a0b0d;
+  border: 1px solid #1e2126;
+  overflow: hidden;
+}
+
+.bar {
+  height: 100%;
+  width: 0;
+  border-radius: 7px;
+  background: #4f8cff;
+  background: -webkit-linear-gradient(left, #2f63d6, #4f8cff 60%, #7fb0ff);
+  background: linear-gradient(90deg, #2f63d6, #4f8cff 60%, #7fb0ff);
+  -webkit-box-shadow: 0 0 18px rgba(79, 140, 255, 0.45);
+  box-shadow: 0 0 18px rgba(79, 140, 255, 0.45);
+  -webkit-transition: width 0.3s linear;
+  transition: width 0.3s linear;
+  position: relative;
+}
+
+.bar:after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: -webkit-linear-gradient(left, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0));
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.28), transparent);
+  -webkit-animation: sheen 1.6s linear infinite;
+  animation: sheen 1.6s linear infinite;
+}
+
+.bar.indet {
+  width: 40%;
+  -webkit-animation: slide 1.2s ease-in-out infinite;
+  animation: slide 1.2s ease-in-out infinite;
+}
+
+.bar.indet:after { display: none; }
+
+.bar.frozen { width: 100%; }
+.bar.frozen:after { display: none; }
+
+@-webkit-keyframes sheen {
+  0% { -webkit-transform: translateX(-100%); }
+  100% { -webkit-transform: translateX(100%); }
+}
+
+@keyframes sheen {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+@-webkit-keyframes slide {
+  0% { -webkit-transform: translateX(-100%); }
+  100% { -webkit-transform: translateX(260%); }
+}
+
+@keyframes slide {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(260%); }
+}
+
+/* fullscreen log */
+
+.logbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 54px;
+  border-bottom: 1px solid #26292f;
+  background: #0c0d0f;
+}
+
+.logbar:after { content: ""; display: block; clear: both; }
+
+.logbar .verline {
+  float: left;
+  margin: 19px 0 0 22px;
+  font-size: 13px;
+  color: #9aa0a8;
+}
+
+.state {
+  float: right;
+  margin: 20px 22px 0 0;
+  font: 12px/1 "Consolas", "DejaVu Sans Mono", monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: #6b717a;
+}
+
+.state.live { color: #7fb0ff; }
+.state.ok { color: #5ddc8f; }
+.state.bad { color: #ff7b7b; }
+
+.mini {
+  float: right;
+  margin: 14px 16px 0 0;
+  font: 11px/1 "Consolas", "DejaVu Sans Mono", monospace;
+  letter-spacing: 0.1em;
+  color: #9aa0a8;
+  background: #17191d;
+  border: 1px solid #31353d;
+  border-radius: 5px;
+  padding: 7px 12px;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+
+.mini:hover, .mini:focus { color: #eceef1; border-color: #9aa0a8; outline: none; }
+
+.log.full {
+  position: absolute;
+  top: 54px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: auto;
+  padding: 18px 24px 24px;
+  overflow-y: auto;
+  font: 13px/1.7 "Consolas", "DejaVu Sans Mono", monospace;
+  color: #c6cad1;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.log .t { color: #4d525b; margin-right: 9px; }
+.log .l-info { color: #a8aeb7; }
+.log .l-ok { color: #5ddc8f; }
+.log .l-warn { color: #f5c451; }
+.log .l-bad { color: #ff7b7b; }
+.log .l-blue { color: #7fb0ff; }
+
+/* footer */
+
+.foot {
+  position: absolute;
+  bottom: 14px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font: 11px/1.6 "Consolas", "DejaVu Sans Mono", monospace;
+  color: #565b64;
+}
+
+.foot .host { margin-left: 14px; }
+
+.sink { display: none; }
+
+@media (max-width: 720px) {
+  .top { padding: 16px 16px 0; }
+  .brand { float: none; display: inline-block; margin-bottom: 8px; }
+  .meta { float: none; }
+  .chip { margin: 0 6px 0 0; }
+  .boot-pct { font-size: 52px; }
+  .boot-inner { padding-top: 24%; }
+  .center { padding-top: 12vh; }
+  .jb { font-size: 19px; letter-spacing: 0.24em; }
+  .logbar .verline { margin-left: 14px; font-size: 12px; }
+  .log.full { padding: 14px; }
+  .foot .credits { display: block; }
+}

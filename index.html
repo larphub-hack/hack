@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>larphub jailbreak</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="main" id="main">
+  <header class="top">
+    <div class="brand">LARP<span>HUB</span></div>
+    <div class="meta">
+      <span class="chip" id="fwChip">fw &mdash;</span>
+      <span class="chip" id="cacheChip">pack &mdash;</span>
+    </div>
+  </header>
+
+  <div class="center">
+    <button id="jbBtn" class="jb" disabled>jailbreak</button>
+    <p class="verline" id="verLine"></p>
+    <p class="phase-note" id="jbNote">one press runs the chain, the log opens fullscreen</p>
+  </div>
+
+  <footer class="foot">
+    <span>larphub jailbreak</span>
+    <span class="credits">psfree anonymous &middot; goldhen sistr0 &middot; chains gamerhack</span>
+    <span id="hostInfo" class="host"></span>
+  </footer>
+</div>
+
+<div class="screen logscreen hidden" id="logScreen">
+  <div class="logbar">
+    <span class="verline" id="logVer"></span>
+    <button id="logClose" class="mini hidden" type="button">close</button>
+    <span class="state" id="chainState">idle</span>
+  </div>
+  <pre id="log" class="log full"></pre>
+</div>
+
+<div id="msgs" class="sink"></div>
+<script src="js/chains.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
